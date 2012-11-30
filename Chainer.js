@@ -21,8 +21,9 @@
 			return this;
 		};
 
-
-		var end = function(){
+		var end = function(repeats, waitTime){
+			if(repeats) this.repeats = repeats;
+			if(waitTime) this.waitTime = waitTime;
 			if(this.isWaiting){
 				if(this.repeats > 0)
 				{
@@ -33,7 +34,6 @@
 				else {
 					setTimeout(this._cb, this.waitTime);
 				}
-				
 			}
 			else {
 				if(this.repeats > 0)
@@ -58,8 +58,16 @@
 	})();
 
 	/* random testing */
-	Chainer.start(function(){
-		console.log('test');
-	}).end();
-
+	var callcount = 0;
+	var print = function(str){
+		console.log(str);
+	};
+	var hello = function(){
+		callcount++;
+		print('Hello call '+callcount+'!');
+	};
+	var chainedFunc1 = Chainer.start(hello).wait(2500);
+	var chainedFunc2 = Chainer.start(hello).wait(2000);
+	chainedFunc1.end();
+	chainedFunc2.end(1,500);
 })();
