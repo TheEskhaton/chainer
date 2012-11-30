@@ -12,6 +12,10 @@
 			this.istrue = true;
 			return this;
 		};
+		var restart = function(cb){
+			this._cb = cb;
+			return this;
+		};
 		var wait = function(time){
 			this.isWaiting = true;
 			this.waitTime += time;
@@ -87,7 +91,8 @@
 						this._cb.call();
 					}
 				}
-			}			
+			}
+			return this;			
 		};
 
 		return {
@@ -113,8 +118,14 @@
 		callcount++;
 		print('Hello call '+callcount+'!');
 	};
-	var func = Chainer.start(hello).wait(2500).repeat(2).ifTrue(false);
 	
-	func.ifTrue(true).end();
+	var hello2 = function(){
+		callcount++;
+		print('Hello2 call '+callcount+'!');
+	};
+	
+	var func = Chainer.start(hello).repeat(2).ifTrue(false);
+	
+	func.ifTrue(true).end().restart(hello2).wait(1000).repeat(2).end();
 	
 })();
