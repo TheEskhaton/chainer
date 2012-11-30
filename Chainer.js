@@ -9,6 +9,7 @@
 			this.waitTime = 0;
 			this._cb=cb;
 			this.repeats = 0;
+			this.istrue = true;
 			return this;
 		};
 		var wait = function(time){
@@ -35,29 +36,56 @@
 			this.repeats = 1;
 			return this;
 		};
+		
+		var ifTrue = function(check){
+			if(check === true)
+			{
+				this.istrue = true;
+			}
+			else
+			{
+				this.istrue = false;
+			}
+			return this;
+		};
+		
+		var ifFalse = function(check){
+			if(check === true)
+			{
+				this.istrue = false;
+			}
+			else
+			{
+				this.istrue = true;
+			}
+			return this;
+		};
+			
 		var end = function(repeats, waitTime){
-			if(repeats) this.repeats = repeats;
-			if(waitTime) this.waitTime = waitTime;
-			if(this.isWaiting){
-				if(this.repeats > 0)
-				{
-					for(this.repeats;this.repeats > 0;--this.repeats){
+			if(this.istrue === true){
+				if(repeats) this.repeats = repeats;
+				if(waitTime) this.waitTime = waitTime;
+				if(this.isWaiting){
+					if(this.repeats > 0)
+					{
+						for(this.repeats;this.repeats > 0;--this.repeats){
+							setTimeout(this._cb, this.waitTime);
+						}
+					}
+					else {
 						setTimeout(this._cb, this.waitTime);
 					}
 				}
 				else {
-					setTimeout(this._cb, this.waitTime);
-				}
-			}
-			else {
-				if(this.repeats > 0)
-				{
-					for(this.repeats;this.repeats > 0;--this.repeats){
+					if(this.repeats > 0)
+					{
+						for(this.repeats;this.repeats > 0;--this.repeats){
+							this._cb.call();
+						}
+					}
+					else{
 						this._cb.call();
 					}
-				}
-				else{
-					this._cb.call();
 				}
 			}			
 		};
@@ -69,7 +97,9 @@
 			repeat: repeat,
 			clearWait: clearWait,
 			clearRepeat: clearRepeat,
-			clearAll: clearAll
+			clearAll: clearAll,
+			ifTrue: ifTrue,
+			ifFalse: ifFalse
 		};
 
 	})();
@@ -83,8 +113,8 @@
 		callcount++;
 		print('Hello call '+callcount+'!');
 	};
-	var chainedFunc1 = Chainer.start(hello).wait(2500);
-	var chainedFunc2 = Chainer.start(hello).wait(2000);
-	chainedFunc1.clearWait().end();
-	chainedFunc2.end(1,500);
+	var func = Chainer.start(hello).wait(2500).repeat(2).ifTrue(false);
+	
+	func.ifTrue(true).end();
+	
 })();
