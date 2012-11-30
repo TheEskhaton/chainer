@@ -20,6 +20,8 @@
 			this.repeats+=n;
 			return this;
 		};
+
+
 		var end = function(){
 			if(this.isWaiting){
 				if(this.repeats > 0)
@@ -34,11 +36,16 @@
 				
 			}
 			else {
-				for(this.repeats;this.repeats > 0;--this.repeats){
+				if(this.repeats > 0)
+				{
+					for(this.repeats;this.repeats > 0;--this.repeats){
+						this._cb.call();
+					}
+				}
+				else{
 					this._cb.call();
 				}
-			}
-			
+			}			
 		};
 
 		return {
@@ -53,6 +60,6 @@
 	/* random testing */
 	Chainer.start(function(){
 		console.log('test');
-	}).wait(1000).end();
+	}).end();
 
 })();
