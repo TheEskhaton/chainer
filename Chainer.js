@@ -104,7 +104,8 @@
 			clearRepeat: clearRepeat,
 			clearAll: clearAll,
 			ifTrue: ifTrue,
-			ifFalse: ifFalse
+			ifFalse: ifFalse,
+			restart: restart
 		};
 
 	})();
