@@ -20,7 +20,21 @@
 			this.repeats+=n;
 			return this;
 		};
-
+		var clearWait = function(){
+			this.isWaiting = false;
+			this.waitTime = 0;
+			return this;
+		};
+		var clearRepeat = function(){
+			this.repeats = 1;
+			return this;
+		};
+		var clearAll = function(){
+			this.isWaiting = false;
+			this.waitTime = 0;
+			this.repeats = 1;
+			return this;
+		};
 		var end = function(repeats, waitTime){
 			if(repeats) this.repeats = repeats;
 			if(waitTime) this.waitTime = waitTime;
@@ -52,7 +66,10 @@
 			start: start,
 			end: end,
 			wait: wait,
-			repeat: repeat
+			repeat: repeat,
+			clearWait: clearWait,
+			clearRepeat: clearRepeat,
+			clearAll: clearAll
 		};
 
 	})();
@@ -68,6 +85,6 @@
 	};
 	var chainedFunc1 = Chainer.start(hello).wait(2500);
 	var chainedFunc2 = Chainer.start(hello).wait(2000);
-	chainedFunc1.end();
+	chainedFunc1.clearWait().end();
 	chainedFunc2.end(1,500);
 })();
