@@ -109,5 +109,5 @@
 		};
 
 	})();
-	window.Chainer = Chainer;
+	root.Chainer = Chainer;
 })(window);
