@@ -109,24 +109,5 @@
 		};
 
 	})();
-
-	/* random testing */
-	var callcount = 0;
-	var print = function(str){
-		console.log(str);
-	};
-	var hello = function(){
-		callcount++;
-		print('Hello call '+callcount+'!');
-	};
-	
-	var hello2 = function(){
-		callcount++;
-		print('Hello2 call '+callcount+'!');
-	};
-	
-	var func = Chainer.start(hello).repeat(2).ifTrue(false);
-	
-	func.ifTrue(true).end().restart(hello2).wait(1000).repeat(2).end();
 	
 })();
