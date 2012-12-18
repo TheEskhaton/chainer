@@ -1,4 +1,4 @@
-; (function(){
+; (function(root){
 
 	"use strict";
 
@@ -109,5 +109,5 @@
 		};
 
 	})();
-	
-})();
+	window.Chainer = Chainer;
+})(window);
