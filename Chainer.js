@@ -3,7 +3,7 @@
 	"use strict";
 
 	var Chainer = (function(){
-		
+        var setTimeout = root.setTimeout;		
 		var start = function(cb){
 			this.isWaiting = false;
 			this.waitTime = 0;
